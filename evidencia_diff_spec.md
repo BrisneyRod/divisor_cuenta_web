@@ -1,83 +1,25 @@
-# Evidencia de la spec que viaja
+# Evidencia de reutilización
 
-## Comparación inicial
-
-Origen Flutter:
-
-```text
-../participacion_semana7_sdd_run/specs/001-dividir-cuenta/spec.md
-```
-
-Copia React:
-
-```text
-specs/001-dividir-cuenta/spec.md
-```
-
-Comando ejecutado en PowerShell:
+La comparación inicial se ejecutó en Parte 3.4: diff vacío, código 0; copia conservada en commit 0b94a5c. Se verificó otra vez al entregar, tanto contra Flutter como contra ese commit. No hubo corrección de spec.
 
 ```powershell
-git diff --no-index -- "..\participacion_semana7_sdd_run\specs\001-dividir-cuenta\spec.md" `
-  "specs\001-dividir-cuenta\spec.md"
+git diff --no-index -- "../participacion_semana7_sdd_run/specs/001-dividir-cuenta/spec.md" "specs/001-dividir-cuenta/spec.md"
+# salida vacía; exit 0
+git diff 0b94a5c -- specs/001-dividir-cuenta/spec.md
+# salida vacía
 ```
 
-Salida observada:
+36/36 enunciados normativos únicos reutilizados (100%), según [análisis](analisis_spec.md). Corrige el conteo anterior no reproducible de 33. [Diff completo del plan](evidencias/plan.diff) y [conteo por decisión](comparacion_plan.md): 23 decisiones cambiadas, no 33. Las 33 adiciones/91 eliminaciones del diff original son líneas, no enunciados.
 
-```text
-DIFF_EXIT=0
-```
+## Casos semánticamente idénticos
 
-No se produjo ninguna línea de diff. La copia inicial de la spec es idéntica a
-la original.
+| Escenario | Monto | Personas | Propina | Modo | Esperado en ambos |
+|---|---:|---:|---:|---|---|
+| 1 | 100 | 4 | 10 | exacto | 27.50 |
+| 2 | 90 | 3 | 0 | exacto | 30.00 |
+| 3 | 50 | 0 | 0 | exacto | Debe haber al menos una persona |
+| 4 | NaN | 4 | 0 | exacto | Monto inválido |
+| 5 | 10 | 3 | 0 | exacto | 3.33 |
+| 6 | 10 | 3 | 0 | arriba | 4.00 |
 
-## Porcentaje reutilizado
-
-En `analisis_spec.md` se contaron 33 enunciados de la spec:
-
-- 33 reutilizables sin cambios de comportamiento.
-- 0 enunciados CÓMO.
-- 0 enunciados MIXTOS.
-
-Porcentaje de enunciados reutilizados sin cambios:
-
-```text
-33 / 33 × 100 = 100%
-```
-
-La redacción “al tocar Calcular” se puede expresar como clic o envío de
-formulario en React, pero no cambia el requisito ni se necesitó modificar la
-spec.
-
-## Casos de prueba
-
-La comparación conceptual entre `../participacion_semana7_sdd_run/test/casos_de_prueba.dart`
-y `test/casosDePrueba.js` confirma que los seis escenarios conservan sus
-entradas, resultados, mensajes, modos y reglas de negocio. Solo cambian la
-sintaxis y el tipo que representa cada caso: Dart usa una clase y JavaScript
-usa objetos. `double.nan` se traduce a `NaN`.
-
-## Plan
-
-El diff entre los planes se obtuvo con:
-
-```powershell
-git diff --no-index -- "..\participacion_semana7_sdd_run\specs\001-dividir-cuenta\plan.md" `
-  "specs\001-dividir-cuenta\plan.md"
-```
-
-El resultado fue un cambio de **33 enunciados del plan**, sin contar líneas
-físicas. Las adaptaciones principales fueron:
-
-- Dart y Flutter se reemplazaron por JavaScript, React, Vite y Node.js.
-- `flutter test` se reemplazó por Vitest y Testing Library.
-- La app móvil Flutter se reemplazó por una aplicación web para navegador.
-- `setState` se reemplazó por `useState`.
-- `lib/` se reemplazó por `src/`.
-- `main.dart` se reemplazó por `src/main.jsx`.
-- Las clases y archivos Dart se reemplazaron por módulos JavaScript y un hook
-  `useDivisor`.
-- Las pruebas de widgets Flutter se reemplazaron por pruebas de pantalla con
-  jsdom y Testing Library.
-
-Estas modificaciones pertenecen al CÓMO. El QUÉ de la spec y los seis casos
-de aceptación permanecieron sin cambios.
+Dart double.nan y JS NaN representan el mismo dato inválido. Clases Dart → objetos JS; los valores, errores y reglas no cambiaron.

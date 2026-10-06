@@ -51,7 +51,7 @@
 - [X] T024 [P] Verify domain imports no React or DOM APIs with a repository search
 - [X] T025 [P] Run `npm run build` and record result in `bitacora.md`
 - [X] T026 [P] Run `npm run test` and validate all six acceptance scenarios
-- [X] T027 Run the `quickstart.md` manual flow and record observed results in `bitacora.md`
+- [ ] T027 Run the `quickstart.md` manual flow and record observed results in `bitacora.md` (correction: automated tests pass; visual browser review was not performed)
 
 ## Dependencies and execution order
 

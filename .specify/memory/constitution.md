@@ -1,6 +1,6 @@
 # Divisor de Cuenta Web Constitution
 
-<!-- Sync Impact Report: initial React constitution derived from Flutter principles. -->
+<!-- Revisión 1.0.1: recupera obligaciones del original omitidas al resumirlo. -->
 
 ## Core Principles
 
@@ -15,6 +15,8 @@ Code MUST use `src/presentation`, `src/domain`, and `src/data` with dependency d
 ### III. Repository Security
 
 Secrets and API keys MUST NOT be stored in the repository.
+Credentials, tokens and private agent state MUST NOT be committed. Required secrets
+MUST remain outside version control and be documented by name only.
 
 ### IV. Critical Tests
 
@@ -23,6 +25,7 @@ Every critical behavior MUST have executable tests, and every acceptance criteri
 ### V. Student Explainability
 
 Every generated function MUST be explainable by the student: purpose, inputs, outputs, and handled errors or invalid states.
+The student MUST also explain why the function exists.
 
 ## Product Constraints
 
@@ -30,10 +33,15 @@ The product is a one-screen web bill splitter accepting total amount, people, ti
 
 ## Quality Gates
 
+Product domain names MUST be Spanish. New behavior requires an explicit specification.
+Interfaces MUST NOT make consumers depend on functions they do not use.
+Environment failures MUST be recorded in the log. Manual verification MUST record
+inputs, expected output and observed output. Run npm run lint as the static analysis gate.
+
 Before completion, run the React build and test commands. Review MUST verify no React or DOM imports in `src/domain/`, concrete wiring only in `src/main.jsx`, and that adding a rounding rule does not change existing calculation modules.
 
 ## Governance
 
 This constitution supersedes informal practices. Amendments require a documented reason. Semantic versioning applies: MAJOR removes or redefines a principle, MINOR adds or materially expands one, and PATCH clarifies wording without changing obligations. Compliance MUST be reviewed during planning and after implementation. Violations MUST be fixed or documented with a concrete follow-up task.
 
-**Version**: 1.0.0 | **Ratified**: 2026-10-06 | **Last Amended**: 2026-10-06
+**Version**: 1.0.1 | **Ratified**: 2026-10-06 | **Last Amended**: 2026-10-06

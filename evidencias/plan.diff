@@ -1,0 +1,149 @@
+warning: in the working copy of 'specs/001-dividir-cuenta/plan.md', LF will be replaced by CRLF the next time Git touches it
+diff --git a/../participacion_semana7_sdd_run/specs/001-dividir-cuenta/plan.md b/specs/001-dividir-cuenta/plan.md
+index db03afe..2758a1d 100644
+--- a/../participacion_semana7_sdd_run/specs/001-dividir-cuenta/plan.md
++++ b/specs/001-dividir-cuenta/plan.md
+@@ -1,110 +1,52 @@
+-# Implementation Plan: Dividir cuenta
++# Implementation Plan: Dividir cuenta web
+ 
+-**Branch**: `sdd` | **Date**: 2026-09-30 | **Spec**: [spec.md](spec.md)
+-
+-**Input**: Feature specification from `specs/001-dividir-cuenta/spec.md`
++**Branch**: `001-dividir-cuenta` | **Date**: 2026-10-06 | **Spec**: [spec.md](spec.md)
+ 
+ ## Summary
+ 
+-Implementar una app Flutter de una sola pantalla para dividir una cuenta de
+-restaurante. La solucion usara estado local con `setState`, sin paquetes
+-externos, y separara calculo, validacion, redondeo, formato y presentacion
+-segun la Constitution.
++Implementar la misma funcionalidad como aplicación web React con Vite, JavaScript,
++estado local con `useState` y ninguna librería externa de estado.
+ 
+ ## Technical Context
+ 
+-**Language/Version**: Dart con Flutter SDK estable
+-
+-**Primary Dependencies**: Flutter SDK; sin paquetes externos
+-
+-**Storage**: N/A; la app no usa red, archivos ni base de datos
+-
+-**Testing**: `flutter test` para pruebas de dominio, controlador y widget
+-
+-**Target Platform**: Flutter app local de una pantalla
+-
+-**Project Type**: Aplicacion Flutter
+-
+-**Performance Goals**: El calculo debe completarse inmediatamente para entradas
+-humanas de una pantalla; no hay procesamiento intensivo ni red
+-
+-**Constraints**: Offline, sin paquetes externos, sin base de datos, sin red,
+-estado local con `setState`, una sola pantalla
+-
+-**Scale/Scope**: MVP de una pantalla con 6 escenarios de aceptacion
++**Language/Version**: JavaScript moderno, Node.js 22.12+
++**Framework/Build**: React con Vite
++**Dependencies**: React y herramientas Vite/Vitest; sin librerías de estado externas
++**Storage**: N/A; sin red, archivos ni base de datos
++**Testing**: Vitest y pruebas de componentes; dependencias adicionales solo si se justifican
++**Target Platform**: Navegador web
++**Project Type**: Aplicación React de una sola pantalla
++**Constraints**: Offline, sin API, sin base de datos, interfaz en español
+ 
+ ## Constitution Check
+ 
+-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+-
+-- SOLID: PASS. El plan separa validacion, calculo, redondeo, formato y UI.
+-- Capas: PASS. Se usaran `presentation`, `domain` y `data`.
+-- Dependencias: PASS. `presentation -> domain <- data`.
+-- Dominio sin Flutter: PASS. `lib/domain/` contendra solo Dart puro.
+-- Composicion en `main.dart`: PASS. Las implementaciones concretas se
+-  instanciaran solo en `main.dart`.
+-- Seguridad: PASS. No hay secretos, red ni credenciales.
+-- Pruebas criticas: PASS. Los 6 escenarios de aceptacion se convertiran en
+-  pruebas ejecutables.
+-- Explicabilidad: PASS. Las clases tienen nombres y responsabilidades concretas.
++- SOLID: PASS. Validación, cálculo, redondeo, formato y UI tendrán responsabilidades separadas.
++- Capas: PASS. Se usarán `src/presentation`, `src/domain` y `src/data`.
++- Dependencias: PASS. `presentation -> domain <- data`; el dominio no importará React ni DOM.
++- Composición: PASS. `src/main.jsx` será el único punto que instancie estrategias concretas.
++- Seguridad: PASS. No habrá secretos, API keys, red ni persistencia.
++- Pruebas: PASS. Los seis escenarios serán pruebas ejecutables.
++- Explicabilidad: PASS. Cada módulo tendrá una responsabilidad concreta.
+ 
+ ## Project Structure
+ 
+-### Documentation (this feature)
+-
+-```text
+-specs/001-dividir-cuenta/
+-├── plan.md
+-├── research.md
+-├── data-model.md
+-├── quickstart.md
+-├── contracts/
+-│   └── ui-contract.md
+-└── tasks.md
+-```
+-
+-### Source Code (repository root)
+-
+ ```text
+-lib/
+-├── main.dart
+-├── domain/
+-│   ├── cuenta.dart
+-│   ├── resultado.dart
+-│   ├── calcular_division.dart
+-│   ├── validar_entrada.dart
+-│   └── estrategia_redondeo.dart
+-├── data/
+-│   ├── redondeo_exacto.dart
+-│   └── redondeo_hacia_arriba.dart
+-└── presentation/
+-    ├── divisor_controller.dart
+-    ├── formateador_moneda.dart
+-    └── pantalla_divisor.dart
+-
+-test/
+-├── domain/
+-│   ├── calcular_division_test.dart
+-│   └── validar_entrada_test.dart
+-├── data/
+-│   └── estrategia_redondeo_test.dart
+-└── presentation/
+-    └── pantalla_divisor_test.dart
++src/
++├── main.jsx
++├── domain/ (cuenta.js, resultado.js, calcularDivision.js, validarEntrada.js, estrategiaRedondeo.js)
++├── data/ (redondeoExacto.js, redondeoHaciaArriba.js)
++└── presentation/ (useDivisor.js, formateadorMoneda.js, PantallaDivisor.jsx)
+ ```
+ 
+-**Structure Decision**: Flutter se mantiene como un solo proyecto. La app usa
+-capas dentro de `lib/`, con dominio puro y composicion en `main.dart`.
+-
+-## Complexity Tracking
++## Design Decisions
+ 
+-No hay violaciones de Constitution que justificar.
++- El dominio exportará funciones y un contrato pequeño `aplicar(valor)`.
++- `useDivisor` recibirá sus dependencias por parámetro y no creará estrategias.
++- `main.jsx` compondrá validación, cálculo y estrategias concretas.
++- La validación ocurrirá antes del cálculo y un error limpiará el resultado anterior.
++- Exacto muestra dos decimales; hacia arriba usa el entero superior y muestra dos decimales.
+ 
+-## Post-Design Constitution Check
++## Constitution Re-check
+ 
+-- SOLID: PASS. Las responsabilidades quedan asignadas a clases separadas.
+-- OCP: PASS. Una nueva estrategia de redondeo se agrega implementando
+-  `EstrategiaRedondeo`.
+-- DIP: PASS. `DivisorController` recibe dependencias por constructor.
+-- Dominio sin Flutter: PASS. Los archivos de `domain` no requieren Flutter.
+-- Pruebas: PASS. Los escenarios de aceptacion quedan cubiertos por tareas de
+-  pruebas antes de finalizar la implementacion.
++PASS. El diseño conserva el QUÉ de la spec y reemplaza decisiones Flutter por
++módulos React equivalentes. No hay contradicciones que obliguen a modificar `spec.md`.
