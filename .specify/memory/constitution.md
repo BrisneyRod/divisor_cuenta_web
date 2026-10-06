@@ -1,50 +1,39 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+# Divisor de Cuenta Web Constitution
+
+<!-- Sync Impact Report: initial React constitution derived from Flutter principles. -->
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. SOLID Code Quality
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+The code MUST respect SOLID in review. SRP means each function or module has one reason to change; calculation MUST NOT validate input or format display strings. OCP means adding a rounding rule MUST NOT require editing existing calculation modules. LSP means any rounding implementation can replace another without concrete type checks. ISP means interfaces remain small. DIP means `src/presentation` depends on `src/domain` abstractions, never concrete `src/data` implementations.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### II. Layered Architecture
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+Code MUST use `src/presentation`, `src/domain`, and `src/data` with dependency direction `presentation -> domain <- data`. `src/domain/` MUST contain pure JavaScript and MUST NOT import `react` or DOM APIs. `src/main.jsx` MUST be the only place where concrete implementations are instantiated and wired.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### III. Repository Security
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+Secrets and API keys MUST NOT be stored in the repository.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### IV. Critical Tests
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Every critical behavior MUST have executable tests, and every acceptance criterion MUST become an executable test.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+### V. Student Explainability
+
+Every generated function MUST be explainable by the student: purpose, inputs, outputs, and handled errors or invalid states.
+
+## Product Constraints
+
+The product is a one-screen web bill splitter accepting total amount, people, tip percentage, and rounding mode. It MUST work offline without network or database. UI text and product names MUST be understandable for Spanish-speaking users. Packages require documented justification.
+
+## Quality Gates
+
+Before completion, run the React build and test commands. Review MUST verify no React or DOM imports in `src/domain/`, concrete wiring only in `src/main.jsx`, and that adding a rounding rule does not change existing calculation modules.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes informal practices. Amendments require a documented reason. Semantic versioning applies: MAJOR removes or redefines a principle, MINOR adds or materially expands one, and PATCH clarifies wording without changing obligations. Compliance MUST be reviewed during planning and after implementation. Violations MUST be fixed or documented with a concrete follow-up task.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-10-06 | **Last Amended**: 2026-10-06
