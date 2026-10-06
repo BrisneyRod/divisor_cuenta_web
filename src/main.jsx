@@ -1,10 +1,8 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { PantallaDivisor } from './presentation/PantallaDivisor.jsx'
+import { redondeoExacto } from './data/redondeoExacto.js'
+import { redondeoHaciaArriba } from './data/redondeoHaciaArriba.js'
 import './index.css'
-import App from './App.jsx'
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+createRoot(document.getElementById('root')).render(<StrictMode><PantallaDivisor estrategias={{ exacto: redondeoExacto, arriba: redondeoHaciaArriba }} /></StrictMode>)
